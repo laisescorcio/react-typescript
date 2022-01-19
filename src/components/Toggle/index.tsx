@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 
-import Switch from 'react-switch';
-
 import { 
     Container,
-    ToggleLabel
+    ToggleLabel,
+    ToggleSelector
 } from "./styles";
 
 const Toggle: React.FC = () => {
@@ -13,7 +12,7 @@ const Toggle: React.FC = () => {
     return ( 
         <Container>
             <ToggleLabel>Light</ToggleLabel>
-            <Switch 
+            <ToggleSelector 
                 checked={online}
                 onChange={() => setOnline(!online)}
                 uncheckedIcon={false}
