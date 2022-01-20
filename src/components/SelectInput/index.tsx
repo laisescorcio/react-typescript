@@ -2,14 +2,23 @@ import React from 'react';
 
 import { Container } from './styles';
 
-const SelectInput: React.FC = ({ children }) => {
+interface ISelectInputProps {
+    options: {
+        value: string | number;
+        label: string | number;
+    }[] //o [] é para significar que é uma listagem
+}
+
+const SelectInput: React.FC<ISelectInputProps> = ({ options }) => {
 
     return (
         <Container>
             <select>
-                <option value="a">Ana</option>
-                <option value="b">Marcus</option>
-                <option value="c">Maria</option>
+                {
+                    options.map(option => (
+                        <option value={option.value}>{option.label}</option>
+                    ))
+                }
             </select>
         </Container>
     )

@@ -9,15 +9,20 @@ import {
 } from './styles';
 
 const ContentHeader: React.FC = () => {
+
+    const options = [
+        { value: "Rodrigo", label: "Rodrigo" },
+        { value: "Maria", label: "Maria" },
+        { value: "Ana", label: "Ana" },
+    ]
+
     return (
         <Container>
             <TitleContainer>
                 <h1>Título</h1>
             </TitleContainer>
             <Controllers>
-                <SelectInput />
-                <SelectInput />
-                <SelectInput />
+                <SelectInput options={options}/>
             </Controllers>
         </Container>
     )
