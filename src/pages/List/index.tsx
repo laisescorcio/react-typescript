@@ -20,120 +20,103 @@ const List: React.FC = () => {
                 <SelectInput options={options} />
             </ContentHeader>
             <Content>
-                <HistoryFinanceCard 
-                    cardColor='#313862' 
+                <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />                
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
                     amount='R$ 130,00'
                     />
-                    <HistoryFinanceCard 
-                    cardColor='#313862' 
+                    <HistoryFinanceCard  
                     tagColor='#E44C4E' 
                     title='Conta de Luz' 
                     subtitle='31/07/2020'
