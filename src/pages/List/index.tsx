@@ -68,9 +68,6 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     { value: 10, label: "Outubro" },
     { value: 11, label: "Novembro" },
     { value: 12, label: "Dezembro" },
-    // { value: 7, label: "Julho" },
-    // { value: 1, label: "Janeiro" },
-    // { value: 5, label: "Maio" },
   ];
 
   const years = [
@@ -94,7 +91,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     // percorrer cada item filtrado, ou seja, cada item que tem o mes e ano selecionados
     const formattedDate = filteredDate.map((item) => {
       return {
-        id: String(new Date().getTime() * data.length),
+        id: String(new Date().getTime()) + item.amount, // id para gerar número único para a key do react
         description: item.description,
         amountFormatted: formatCurrency(Number(item.amount)),
         frequency: item.frequency,
