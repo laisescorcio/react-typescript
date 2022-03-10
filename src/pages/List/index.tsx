@@ -68,6 +68,9 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     { value: 10, label: "Outubro" },
     { value: 11, label: "Novembro" },
     { value: 12, label: "Dezembro" },
+    // { value: 7, label: "Julho" },
+    // { value: 1, label: "Janeiro" },
+    // { value: 5, label: "Maio" },
   ];
 
   const years = [
@@ -79,9 +82,19 @@ const List: React.FC<IRouteParams> = ({ match }) => {
   ];
 
   useEffect(() => {
-    const response = listData.map((item) => {
+    // filtro para retornar apenas os cards com o mes e o ano que foram selecionados
+    const filteredDate = listData.filter((item) => {
+      const date = new Date(item.date);
+      const month = String(date.getMonth() + 1);
+      const year = String(date.getFullYear());
+
+      return month === monthSelected && year === yearSelected;
+    });
+
+    // percorrer cada item filtrado, ou seja, cada item que tem o mes e ano selecionados
+    const formattedDate = filteredDate.map((item) => {
       return {
-        id: String(Math.random() * data.length),
+        id: String(new Date().getTime() * data.length),
         description: item.description,
         amountFormatted: formatCurrency(Number(item.amount)),
         frequency: item.frequency,
@@ -89,9 +102,11 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         tagColor: item.frequency === "recorrente" ? "#4E41F0" : "#E44C4E",
       };
     });
-    setData(response);
+
+    // colocar esses itens no estado 'data'
+    setData(formattedDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [listData, monthSelected, yearSelected, data.length]);
 
   return (
     <Container>

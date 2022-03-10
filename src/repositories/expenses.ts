@@ -1,5 +1,10 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
+  {"description":"Energia elétrica",      "amount":"150.55","type":"saída","frequency":"recorrente","date":"2022-03-09"},
+  {"description":"Água",                  "amount":"75.55", "type":"saída","frequency":"recorrente","date":"2022-03-08"},
+  {"description": "Telefone",             "amount":"99.99", "type":"saída","frequency":"recorrente","date":"2022-03-07"},
+  {"description":"Plano de Saúde",        "amount":"300.00","type":"saída","frequency":"recorrente","date":"2022-03-06"},
+  {"description":"Compras do mês",        "amount":"625.78","type":"saída","frequency":"recorrente","date":"2022-03-05"},
   {"description":"Energia elétrica",      "amount":"150.55","type":"saída","frequency":"recorrente","date":"2020-01-10"},
   {"description":"Água",                  "amount":"75.55", "type":"saída","frequency":"recorrente","date":"2020-01-15"},
   {"description": "Telefone",             "amount":"99.99", "type":"saída","frequency":"recorrente","date":"2020-01-23"},
