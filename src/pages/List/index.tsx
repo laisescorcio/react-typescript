@@ -95,7 +95,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         label: year,
       };
     });
-  }, [data]);
+  }, [pageData]);
 
   // quero saber se quando o usuário clicar em um estado (recorrente ou eventual) se já está selecionado
   // sendo frequency = recorrente e/ou eventual
@@ -146,7 +146,13 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     // colocar esses itens no estado 'data'
     setData(formattedDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, monthSelected, yearSelected, data.length, frequencyFilterSelected]);
+  }, [
+    pageData,
+    monthSelected,
+    yearSelected,
+    data.length,
+    frequencyFilterSelected,
+  ]);
 
   return (
     <Container>
@@ -166,7 +172,9 @@ const List: React.FC<IRouteParams> = ({ match }) => {
       <Filters>
         <button
           type="button"
-          className={`tag-filter tag-filter-recurrent
+          className={`
+          tag-filter 
+          tag-filter-recurrent
           ${frequencyFilterSelected.includes("recorrente") && "tag-actived"}`}
           onClick={() => handleFrequencyClick("recorrente")}
         >
@@ -174,7 +182,9 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         </button>
         <button
           type="button"
-          className={`tag-filter tag-filter-eventual
+          className={`
+          tag-filter 
+          tag-filter-eventual
           ${frequencyFilterSelected.includes("eventual") && "tag-actived"}`}
           onClick={() => handleFrequencyClick("eventual")}
         >
