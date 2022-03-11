@@ -79,7 +79,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
       const date = new Date(item.date);
       const year = date.getFullYear();
 
-      //se o ano não estiver incluso dentro da lista, adiciona na lista
+      //se o ano não estiver incluso dentro do select ainda, incluí-lo
       if (!uniqueYears.includes(year)) {
         uniqueYears.push(year);
       }
