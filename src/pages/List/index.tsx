@@ -119,7 +119,11 @@ const List: React.FC<IRouteParams> = ({ match }) => {
       const month = String(date.getMonth() + 1);
       const year = String(date.getFullYear());
 
-      return month === monthSelected && year === yearSelected;
+      return (
+        month === monthSelected &&
+        year === yearSelected &&
+        selectedFrequency.includes(item.frequency)
+      );
     });
 
     // percorrer cada item filtrado, ou seja, cada item que tem o mes e ano selecionados
@@ -137,7 +141,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     // colocar esses itens no estado 'data'
     setData(formattedDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listData, monthSelected, yearSelected, data.length]);
+  }, [listData, monthSelected, yearSelected, data.length, selectedFrequency]);
 
   return (
     <Container>
