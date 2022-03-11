@@ -41,9 +41,9 @@ const List: React.FC<IRouteParams> = ({ match }) => {
   const [yearSelected, setYearSelected] = useState<string>(
     String(new Date().getFullYear())
   );
-  const [selectedFrequency, setSelectedFrequency] = useState([
-    "recorrente",
-    "eventual",
+  const [selectedFrequency, setSelectedFrequency] = useState<string[]>([
+    // "recorrente", // index === 0
+    // "eventual", // index === 1
   ]); // o estado começa com os dois filtros de frequencia habilitado, ou seja, mostra os cards de recorrencia e eventual // nao tem tipagem porque o ts consegue inferir qual é pelo estado inicial (no caso, string)
 
   const { type } = match.params;
@@ -95,21 +95,21 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     });
   }, [listData]);
 
-  //REVER POIS NAO ENTENDI
   // quero saber se quando o usuário clicar em um estado (recorrente ou eventual) se já está selecionado
+  // sendo frequency = recorrente e/ou eventual
   const handleFrequencyClick = (frequency: string) => {
     const alreadySelected = selectedFrequency.findIndex(
-      (item) => item === frequency // atribui um index para cada estado
+      // findIndex retorna o primeiro índice do array que satisfizer a condição, se não corresponder, ele retorna -1 o que significa que nenhum elemento desse array satisfaz a condição
+      // no caso item === frequency: encontra qual é o índice que é igual à frequency
+      (item) => item === frequency
     );
 
-    console.log("alreadySelected", alreadySelected);
-
     if (alreadySelected >= 0) {
-      const filtered = selectedFrequency.filter((item) => item !== frequency);
-      setSelectedFrequency(filtered);
+      console.log("JÁ ESTÁ SELECIONADO");
     } else {
-      console.log("frequencia selecionada agora!");
-      setSelectedFrequency((prev) => [...prev, frequency]);
+      console.log("FREQUENCIA SELECIONADA AGORA!");
+      setSelectedFrequency([frequency]);
+      // setSelectedFrequency((prev) => [...prev, frequency]);
     }
   };
 
