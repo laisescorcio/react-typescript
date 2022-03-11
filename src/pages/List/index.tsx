@@ -41,6 +41,10 @@ const List: React.FC<IRouteParams> = ({ match }) => {
   const [yearSelected, setYearSelected] = useState<string>(
     String(new Date().getFullYear())
   );
+  const [selectedFrequency, setSelectedFrequency] = useState([
+    "recorrente",
+    "eventual",
+  ]); // o estado começa com os dois filtros de frequencia habilitado, ou seja, mostra os cards de recorrencia e eventual // nao tem tipagem porque o ts consegue inferir qual é pelo estado inicial (no caso, string)
 
   const { type } = match.params;
 
@@ -91,6 +95,24 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     });
   }, [listData]);
 
+  //REVER POIS NAO ENTENDI
+  // quero saber se quando o usuário clicar em um estado (recorrente ou eventual) se já está selecionado
+  const handleFrequencyClick = (frequency: string) => {
+    const alreadySelected = selectedFrequency.findIndex(
+      (item) => item === frequency // atribui um index para cada estado
+    );
+
+    console.log("alreadySelected", alreadySelected);
+
+    if (alreadySelected >= 0) {
+      const filtered = selectedFrequency.filter((item) => item !== frequency);
+      setSelectedFrequency(filtered);
+    } else {
+      console.log("frequencia selecionada agora!");
+      setSelectedFrequency((prev) => [...prev, frequency]);
+    }
+  };
+
   useEffect(() => {
     // filtro para retornar apenas os cards com o mes e o ano que foram selecionados
     const filteredDate = listData.filter((item) => {
@@ -134,10 +156,18 @@ const List: React.FC<IRouteParams> = ({ match }) => {
       </ContentHeader>
 
       <Filters>
-        <button type="button" className="tag-filter tag-filter-recurrent">
+        <button
+          type="button"
+          className="tag-filter tag-filter-recurrent"
+          onClick={() => handleFrequencyClick("recorrente")}
+        >
           Recorrentes
         </button>
-        <button type="button" className="tag-filter tag-filter-eventual">
+        <button
+          type="button"
+          className="tag-filter tag-filter-eventual"
+          onClick={() => handleFrequencyClick("eventual")}
+        >
           Eventuais
         </button>
       </Filters>
