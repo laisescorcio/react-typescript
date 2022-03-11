@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import ContentHeader from "../../components/ContentHeader";
 import SelectInput from "../../components/SelectInput";
@@ -10,6 +11,7 @@ import gains from "../../repositories/gains";
 import expenses from "../../repositories/expenses";
 import formatCurrency from "../../utils/formatCurrency";
 import formatDate from "../../utils/formatDate";
+import listOfMonths from "../../utils/months";
 
 interface IRouteParams {
   match: {
@@ -55,22 +57,17 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const months = [
-    { value: 1, label: "Janeiro" },
-    { value: 2, label: "Fevereiro" },
-    { value: 3, label: "Março" },
-    { value: 4, label: "Abril" },
-    { value: 5, label: "Maio" },
-    { value: 6, label: "Junho" },
-    { value: 7, label: "Julho" },
-    { value: 8, label: "Agosto" },
-    { value: 9, label: "Setembro" },
-    { value: 10, label: "Outubro" },
-    { value: 11, label: "Novembro" },
-    { value: 12, label: "Dezembro" },
-  ];
+  // para memorizar o valor correspondente aos meses pois são sempre os mesmos
+  const months = useMemo(() => {
+    return listOfMonths.map((month, index) => {
+      return {
+        value: index + 1,
+        label: month,
+      };
+    });
+  }, []);
 
-  // para memorizar os cards que nao irao mudar muito
+  // para memorizar o valor correspondente aos anos (que tem registro) que nao irao mudar muito
   const years = useMemo(() => {
     let uniqueYears: number[] = [];
 
@@ -107,7 +104,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     // percorrer cada item filtrado, ou seja, cada item que tem o mes e ano selecionados
     const formattedDate = filteredDate.map((item) => {
       return {
-        id: String(new Date().getTime()) + item.amount, // id para gerar número único para a key do react
+        id: uuidv4(), // id para gerar número único para a key do react - utilizado uma lib para isso
         description: item.description,
         amountFormatted: formatCurrency(Number(item.amount)),
         frequency: item.frequency,
