@@ -92,7 +92,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         label: year,
       };
     });
-  }, []);
+  }, [listData]);
 
   useEffect(() => {
     // filtro para retornar apenas os cards com o mes e o ano que foram selecionados
