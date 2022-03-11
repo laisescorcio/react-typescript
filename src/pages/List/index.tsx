@@ -1,21 +1,20 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "uuid"; // gera um número único para a key do react
 
-import ContentHeader from "../../components/ContentHeader";
-import SelectInput from "../../components/SelectInput";
-import HistoryFinanceCard from "../../components/HistoryFinanceCard";
+import ContentHeader from "../../components/ContentHeader"; // Header - Título da Página e Selects
+import SelectInput from "../../components/SelectInput"; // Selects de mes e ano
+import HistoryFinanceCard from "../../components/HistoryFinanceCard"; // card com os registros
+
+import gains from "../../repositories/gains"; // dados de entrada
+import expenses from "../../repositories/expenses"; // dados de gastos
+import formatCurrency from "../../utils/formatCurrency"; // função de moeda para real
+import formatDate from "../../utils/formatDate"; // funcao de formatacao de data
+import listOfMonths from "../../utils/months"; // lista de todos os meses do ano
 
 import { Container, Content, Filters } from "./style";
-
-import gains from "../../repositories/gains";
-import expenses from "../../repositories/expenses";
-import formatCurrency from "../../utils/formatCurrency";
-import formatDate from "../../utils/formatDate";
-import listOfMonths from "../../utils/months";
-
 interface IRouteParams {
   match: {
-    //informacoes da rota
+    //informacoes da rota - se é entrada ou saída
     params: {
       // parametros da rota
       type: string; // meu type
@@ -41,25 +40,26 @@ const List: React.FC<IRouteParams> = ({ match }) => {
   const [yearSelected, setYearSelected] = useState<string>(
     String(new Date().getFullYear())
   );
-  const [selectedFrequency, setSelectedFrequency] = useState([
+  const [frequencyFilterSelected, setFrequencyFilterSelected] = useState([
     "recorrente", // index === 0
     "eventual", // index === 1
   ]); // o estado começa com os dois filtros de frequencia habilitado, ou seja, mostra os cards de recorrencia e eventual // nao tem tipagem porque o ts consegue inferir qual é pelo estado inicial (no caso, string)
 
-  const { type } = match.params;
+  const movimentType = match.params.type;
 
-  const title = useMemo(() => {
-    return type === "entry-balance" ? "Entradas" : "Saídas";
-  }, [type]);
-
-  const lineColor = useMemo(() => {
-    return type === "entry-balance" ? "#F7931B" : "#E44C4E";
-  }, [type]);
-
-  const listData = useMemo(() => {
-    return type === "entry-balance" ? gains : expenses;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const pageData = useMemo(() => {
+    return movimentType === "entry-balance"
+      ? {
+          title: "Entradas",
+          lineColor: "#F7931B",
+          data: gains,
+        }
+      : {
+          title: "Saídas",
+          lineColor: "#E44C4E",
+          data: expenses,
+        };
+  }, [movimentType]);
 
   // para memorizar o valor correspondente aos meses pois são sempre os mesmos
   const months = useMemo(() => {
@@ -75,8 +75,10 @@ const List: React.FC<IRouteParams> = ({ match }) => {
   const years = useMemo(() => {
     let uniqueYears: number[] = [];
 
+    const { data } = pageData;
+
     // forEach porque nao é uma lista
-    listData.forEach((item) => {
+    data.forEach((item) => {
       const date = new Date(item.date);
       const year = date.getFullYear();
 
@@ -93,28 +95,31 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         label: year,
       };
     });
-  }, [listData]);
+  }, [data]);
 
   // quero saber se quando o usuário clicar em um estado (recorrente ou eventual) se já está selecionado
   // sendo frequency = recorrente e/ou eventual
   const handleFrequencyClick = (frequency: string) => {
-    const alreadySelected = selectedFrequency.findIndex(
+    const alreadySelected = frequencyFilterSelected.findIndex(
       // findIndex retorna o primeiro índice do array que satisfizer a condição, se não corresponder, ele retorna -1 o que significa que nenhum elemento desse array satisfaz a condição
       // no caso item === frequency: encontra qual é o índice que é igual à frequency
       (item) => item === frequency
     );
 
     if (alreadySelected >= 0) {
-      const filtered = selectedFrequency.filter((item) => item !== frequency); // pega o index que não está dentro da condição
-      setSelectedFrequency(filtered); // colocar o índex que nao está dentro da condição como sendo o selecionado
+      const filtered = frequencyFilterSelected.filter(
+        (item) => item !== frequency
+      ); // pega o index que não está dentro da condição
+      setFrequencyFilterSelected(filtered); // colocar o índex que nao está dentro da condição como sendo o selecionado
     } else {
-      setSelectedFrequency((prev) => [...prev, frequency]); // prev = estado anterior, ou seja, mantém o que estava selecionado (no indice 0) e adiciona o estado clicado (no índice 1)
+      setFrequencyFilterSelected((prev) => [...prev, frequency]); // prev = estado anterior, ou seja, mantém o que estava selecionado (no indice 0) e adiciona o estado clicado (no índice 1)
     }
   };
 
   useEffect(() => {
+    const { data } = pageData;
     // filtro para retornar apenas os cards com o mes e o ano que foram selecionados
-    const filteredDate = listData.filter((item) => {
+    const filteredDate = data.filter((item) => {
       const date = new Date(item.date);
       const month = String(date.getMonth() + 1);
       const year = String(date.getFullYear());
@@ -122,7 +127,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
       return (
         month === monthSelected &&
         year === yearSelected &&
-        selectedFrequency.includes(item.frequency)
+        frequencyFilterSelected.includes(item.frequency)
       );
     });
 
@@ -141,11 +146,11 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     // colocar esses itens no estado 'data'
     setData(formattedDate);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [listData, monthSelected, yearSelected, data.length, selectedFrequency]);
+  }, [data, monthSelected, yearSelected, data.length, frequencyFilterSelected]);
 
   return (
     <Container>
-      <ContentHeader title={title} lineColor={lineColor}>
+      <ContentHeader title={pageData.title} lineColor={pageData.lineColor}>
         <SelectInput
           options={months}
           onChange={(e) => setMonthSelected(e.target.value)}
@@ -162,7 +167,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         <button
           type="button"
           className={`tag-filter tag-filter-recurrent
-          ${selectedFrequency.includes("recorrente") && "tag-actived"}`}
+          ${frequencyFilterSelected.includes("recorrente") && "tag-actived"}`}
           onClick={() => handleFrequencyClick("recorrente")}
         >
           Recorrentes
@@ -170,7 +175,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
         <button
           type="button"
           className={`tag-filter tag-filter-eventual
-          ${selectedFrequency.includes("eventual") && "tag-actived"}`}
+          ${frequencyFilterSelected.includes("eventual") && "tag-actived"}`}
           onClick={() => handleFrequencyClick("eventual")}
         >
           Eventuais
