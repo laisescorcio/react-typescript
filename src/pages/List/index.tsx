@@ -70,13 +70,29 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     { value: 12, label: "Dezembro" },
   ];
 
-  const years = [
-    { value: 2022, label: 2022 },
-    { value: 2021, label: 2021 },
-    { value: 2020, label: 2020 },
-    { value: 2019, label: 2019 },
-    { value: 2018, label: 2018 },
-  ];
+  // para memorizar os cards que nao irao mudar muito
+  const years = useMemo(() => {
+    let uniqueYears: number[] = [];
+
+    // forEach porque nao é uma lista
+    listData.forEach((item) => {
+      const date = new Date(item.date);
+      const year = date.getFullYear();
+
+      //se o ano não estiver incluso dentro da lista, adiciona na lista
+      if (!uniqueYears.includes(year)) {
+        uniqueYears.push(year);
+      }
+    });
+
+    // retorna a lista de anos, exemplo: [{value: 2020, label: 2020}, {value: 2019, label: 2019}, {value: 2018, label: 2018}]
+    return uniqueYears.map((year) => {
+      return {
+        value: year,
+        label: year,
+      };
+    });
+  }, []);
 
   useEffect(() => {
     // filtro para retornar apenas os cards com o mes e o ano que foram selecionados
