@@ -41,9 +41,9 @@ const List: React.FC<IRouteParams> = ({ match }) => {
   const [yearSelected, setYearSelected] = useState<string>(
     String(new Date().getFullYear())
   );
-  const [selectedFrequency, setSelectedFrequency] = useState<string[]>([
-    // "recorrente", // index === 0
-    // "eventual", // index === 1
+  const [selectedFrequency, setSelectedFrequency] = useState([
+    "recorrente", // index === 0
+    "eventual", // index === 1
   ]); // o estado começa com os dois filtros de frequencia habilitado, ou seja, mostra os cards de recorrencia e eventual // nao tem tipagem porque o ts consegue inferir qual é pelo estado inicial (no caso, string)
 
   const { type } = match.params;
@@ -105,11 +105,10 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     );
 
     if (alreadySelected >= 0) {
-      console.log("JÁ ESTÁ SELECIONADO");
+      const filtered = selectedFrequency.filter((item) => item !== frequency); // pega o index que não está dentro da condição
+      setSelectedFrequency(filtered); // colocar o índex que nao está dentro da condição como sendo o selecionado
     } else {
-      console.log("FREQUENCIA SELECIONADA AGORA!");
-      setSelectedFrequency([frequency]);
-      // setSelectedFrequency((prev) => [...prev, frequency]);
+      setSelectedFrequency((prev) => [...prev, frequency]); // prev = estado anterior, ou seja, mantém o que estava selecionado (no indice 0) e adiciona o estado clicado (no índice 1)
     }
   };
 
@@ -158,14 +157,16 @@ const List: React.FC<IRouteParams> = ({ match }) => {
       <Filters>
         <button
           type="button"
-          className="tag-filter tag-filter-recurrent"
+          className={`tag-filter tag-filter-recurrent
+          ${selectedFrequency.includes("recorrente") && "tag-actived"}`}
           onClick={() => handleFrequencyClick("recorrente")}
         >
           Recorrentes
         </button>
         <button
           type="button"
-          className="tag-filter tag-filter-eventual"
+          className={`tag-filter tag-filter-eventual
+          ${selectedFrequency.includes("eventual") && "tag-actived"}`}
           onClick={() => handleFrequencyClick("eventual")}
         >
           Eventuais
