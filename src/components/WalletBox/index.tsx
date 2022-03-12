@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import CountUp from "react-countup"; // lib para converter valores de moeda e animação de crescer o valor
 
 import dolarImg from "../../assets/dolar.svg";
 import arrowUpImg from "../../assets/arrow-up.svg";
@@ -37,7 +38,15 @@ const WalletBox: React.FC<IWalletBoxProps> = ({
   return (
     <Container color={color}>
       <span>{title}</span>
-      <h1>{amount}</h1>
+      <h1>
+        <CountUp
+          end={amount} // até onde deve aumentar o número
+          prefix={"R$ "} // o que colocar antes do valor
+          separator="." // qual o separador de milhares
+          decimal="," // qual o separador de decimal
+          decimals={2} // quantas casas decimais queremos
+        ></CountUp>
+      </h1>
       <small>{footerLabel}</small>
       <img src={iconSelected} alt={title} />
     </Container>
