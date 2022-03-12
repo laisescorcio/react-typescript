@@ -11,6 +11,7 @@ import listOfMonths from "../../utils/months"; // lista de todos os meses do ano
 
 import happyImg from "../../assets/happy.svg";
 import sadImg from "../../assets/sad.svg";
+import grinning from "../../assets/grinning.svg";
 
 import { Container, Content } from "./styles";
 
@@ -128,7 +129,7 @@ const Dashboard: React.FC = () => {
         description: "Neste mês você gastou exatamente o que ganhou.",
         footerText:
           "Tenha cuidado. No próximo mês tente poupar o seu dinheiro.",
-        icon: happyImg,
+        icon: grinning,
       };
     } else {
       return {
