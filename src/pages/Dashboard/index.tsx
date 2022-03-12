@@ -229,6 +229,49 @@ const Dashboard: React.FC = () => {
     );
   }, [yearSelected]);
 
+  // relação de entrada e saída para o gráfico em barras
+  const relationsExpensesRecurrentVersusEventual = useMemo(() => {
+    let amountRecurrent = 0;
+    let amountEventual = 0;
+
+    expenses
+      .filter((expense) => {
+        const date = new Date(expense.date);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+
+        return month === monthSelected && year === yearSelected; // retorna os itens que tem o mes & o ano que estão selecionados
+      })
+      .forEach((expense) => {
+        // para cada item filtrado acima, somar os valores dos gastos recorrentes
+        if (expense.frequency === "recorrente") {
+          return (amountRecurrent += Number(expense.amount));
+        }
+
+        // para cada item filtrado acima, somar os valores dos gastos eventuais
+        if (expense.frequency === "eventual") {
+          return (amountEventual += Number(expense.amount));
+        }
+      });
+
+    const total = amountRecurrent + amountEventual;
+
+    return [
+      {
+        name: "Recorrentes",
+        amount: amountRecurrent,
+        percent: Number(((amountRecurrent / total) * 100).toFixed(1)), // porcentagem do recorrente com 1 casa decimal
+        color: "#F7931B",
+      },
+      {
+        name: "Eventuais",
+        amount: amountEventual,
+        percent: Number(((amountEventual / total) * 100).toFixed(1)), // porcentagem do eventual com 1 casa decimal
+        color: "#F7931B",
+      },
+    ];
+  }, [monthSelected, yearSelected]);
+
   // quero saber se quando o usuário clicar em um estado (recorrente ou eventual) se já está selecionado
   // sendo frequency = recorrente e/ou eventual
   const handleMonthSelected = (month: string) => {
