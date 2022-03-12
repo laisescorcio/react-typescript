@@ -23,12 +23,6 @@ const Dashboard: React.FC = () => {
     new Date().getFullYear()
   );
 
-  const options = [
-    { value: "Rodrigo", label: "Rodrigo" },
-    { value: "Maria", label: "Maria" },
-    { value: "Ana", label: "Ana" },
-  ];
-
   // para memorizar o valor correspondente aos meses pois são sempre os mesmos
   const months = useMemo(() => {
     return listOfMonths.map((month, index) => {
@@ -123,7 +117,7 @@ const Dashboard: React.FC = () => {
           "Verifique seus gastos e tente cortar algumas coisas desnecessárias.",
         icon: sadImg,
       };
-    } else if (totalBalance == 0) {
+    } else if (totalBalance === 0) {
       return {
         title: "Ufaa!",
         description: "Neste mês você gastou exatamente o que ganhou.",
