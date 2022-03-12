@@ -106,6 +106,9 @@ const Dashboard: React.FC = () => {
     return total;
   }, [monthSelected, yearSelected]);
 
+  // OBSERVAÇÃO: Não tornamos o totalExpenses e o totalGains em uma única funcao apenas passando os parametros, para caso mude as regras de negócio
+  // no SOLID: Princípio da responsabilidade única
+
   // quero saber se quando o usuário clicar em um estado (recorrente ou eventual) se já está selecionado
   // sendo frequency = recorrente e/ou eventual
   const handleMonthSelected = (month: string) => {
