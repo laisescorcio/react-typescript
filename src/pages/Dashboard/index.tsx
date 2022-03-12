@@ -6,6 +6,7 @@ import WalletBox from "../../components/WalletBox";
 import MessageBox from "../../components/MessageBox";
 import PieChartBox from "../../components/PieChartBox";
 import HistoryBox from "../../components/HistoryBox";
+import BarChartBox from "../../components/BarChartBox";
 
 import expenses from "../../repositories/expenses";
 import gains from "../../repositories/gains";
@@ -267,7 +268,7 @@ const Dashboard: React.FC = () => {
         name: "Eventuais",
         amount: amountEventual,
         percent: Number(((amountEventual / total) * 100).toFixed(1)), // porcentagem do eventual com 1 casa decimal
-        color: "#F7931B",
+        color: "#E44C4E",
       },
     ];
   }, [monthSelected, yearSelected]);
@@ -339,6 +340,10 @@ const Dashboard: React.FC = () => {
           data={historyData}
           lineColorAmountEntry="#F7931B"
           lineColorAmountOutput="#E44C4E"
+        />
+        <BarChartBox
+          title="Saídas"
+          data={relationsExpensesRecurrentVersusEventual}
         />
       </Content>
     </Container>
