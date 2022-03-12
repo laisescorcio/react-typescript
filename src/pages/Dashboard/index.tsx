@@ -109,6 +109,10 @@ const Dashboard: React.FC = () => {
   // OBSERVAÇÃO: Não tornamos o totalExpenses e o totalGains em uma única funcao apenas passando os parametros, para caso mude as regras de negócio
   // no SOLID: Princípio da responsabilidade única
 
+  const totalBalance = useMemo(() => {
+    return totalGains - totalExpenses;
+  }, [totalGains, totalExpenses]);
+
   // quero saber se quando o usuário clicar em um estado (recorrente ou eventual) se já está selecionado
   // sendo frequency = recorrente e/ou eventual
   const handleMonthSelected = (month: string) => {
@@ -147,7 +151,7 @@ const Dashboard: React.FC = () => {
         <WalletBox
           title="saldo"
           color="#4E41F0"
-          amount={150.0}
+          amount={totalBalance}
           footerLabel="atualizado com base nas entradas e saídas"
           icon="dolar"
         />
