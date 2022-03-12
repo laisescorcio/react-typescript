@@ -5,6 +5,7 @@ import SelectInput from "../../components/SelectInput";
 import WalletBox from "../../components/WalletBox";
 import MessageBox from "../../components/MessageBox";
 import PieChartBox from "../../components/PieChartBox";
+import HistoryBox from "../../components/HistoryBox";
 
 import expenses from "../../repositories/expenses";
 import gains from "../../repositories/gains";
@@ -161,6 +162,73 @@ const Dashboard: React.FC = () => {
     return data;
   }, [totalGains, totalExpenses]);
 
+  // valores de entrada e saída de cada mes para o gráfico cartesiano
+  const historyData = useMemo(() => {
+    return (
+      listOfMonths
+        .map((_, month) => {
+          // sendo '_' o parametro 'valor' que não será usado; e o 'month' é o parametro index do map
+
+          let amountEntry = 0;
+          gains.forEach((gain) => {
+            // percorre todos os itens dos ganhos
+            const date = new Date(gain.date);
+            const gainMonth = date.getMonth();
+            const gainYear = date.getFullYear();
+
+            if (gainMonth === month && gainYear === yearSelected) {
+              // se o item for do mes que está percorrendo & tiver o mesmo ano que foi selecionado no input
+              try {
+                amountEntry += Number(gain.amount); // soma os valores dos novos itens percorridos aos valores anteriores
+              } catch {
+                throw new Error(
+                  "amountEntry is invalid. amountEntry must be a valid number."
+                );
+              }
+            }
+          });
+
+          let amountOutput = 0;
+          expenses.forEach((expense) => {
+            // percorre todos os itens dos ganhos
+            const date = new Date(expense.date);
+            const expenseMonth = date.getMonth();
+            const expenseYear = date.getFullYear();
+
+            if (expenseMonth === month && expenseYear === yearSelected) {
+              // se o item for do mes que está percorrendo & tiver o mesmo ano que foi selecionado no input
+              try {
+                amountOutput += Number(expense.amount); // soma os valores dos novos itens percorridos aos valores anteriores
+              } catch {
+                throw new Error(
+                  "amountOutput is invalid. amountOutput must be a valid number."
+                );
+              }
+            }
+          });
+
+          return {
+            monthNumber: month,
+            month: listOfMonths[month].substring(0, 3),
+            amountEntry,
+            amountOutput,
+          };
+        })
+        // para mostrar apenas os meses que tem registros
+        .filter((item) => {
+          const currentMonth = new Date().getMonth(); // mes atual
+          const currentYear = new Date().getFullYear(); // ano atual
+
+          // mostrar apenas o mes atual ou meses anteriores no gráfico cartesiano
+          return (
+            (yearSelected === currentYear && // se o ano selecionado for igual ao ano atual &
+              item.monthNumber <= currentMonth) || // se o mes do item for menor ou igual ao mes atual OU
+            yearSelected < currentYear // se o ano selecionado for menor ao ano atual
+          );
+        })
+    );
+  }, [yearSelected]);
+
   // quero saber se quando o usuário clicar em um estado (recorrente ou eventual) se já está selecionado
   // sendo frequency = recorrente e/ou eventual
   const handleMonthSelected = (month: string) => {
@@ -224,6 +292,11 @@ const Dashboard: React.FC = () => {
           icon={message.icon}
         />{" "}
         <PieChartBox data={relationExpensesVersusGains} />
+        <HistoryBox
+          data={historyData}
+          lineColorAmountEntry="#F7931B"
+          lineColorAmountOutput="#E44C4E"
+        />
       </Content>
     </Container>
   );
