@@ -62,13 +62,35 @@ const Dashboard: React.FC = () => {
     });
   }, []);
 
+  // VALORES TOTAIS DE SAÍDA
+  const totalExpenses = useMemo(() => {
+    let total: number = 0;
+
+    expenses.forEach((item) => {
+      const date = new Date(item.date);
+      const year = date.getFullYear(); // ano do registro
+      const month = date.getMonth() + 1; // mes do registro
+
+      // pega os registros do mes e ano selecionados e soma os valores de cada registro
+      if (month === monthSelected && year === yearSelected) {
+        try {
+          total += Number(item.amount); // soma o valor ja guardado com o valor do novo item
+        } catch {
+          throw new Error("Invalid amount! Amount must be number."); // caso tenha algum registro escrito errado
+        }
+      }
+    });
+
+    return total;
+  }, [monthSelected, yearSelected]);
+
   // quero saber se quando o usuário clicar em um estado (recorrente ou eventual) se já está selecionado
   // sendo frequency = recorrente e/ou eventual
   const handleMonthSelected = (month: string) => {
     try {
       const parseMonth = Number(month);
       setMonthSelected(parseMonth);
-    } catch (error) {
+    } catch {
       throw new Error("invalid month value. Is accept 0 - 11.");
     }
   };
@@ -77,7 +99,7 @@ const Dashboard: React.FC = () => {
     try {
       const parseYear = Number(year);
       setYearSelected(parseYear);
-    } catch (error) {
+    } catch {
       throw new Error("invalid month value. Is accept intereger number.");
     }
   };
@@ -114,7 +136,7 @@ const Dashboard: React.FC = () => {
         <WalletBox
           title="saídas"
           color="#E44C4E"
-          amount={4850.0}
+          amount={totalExpenses}
           footerLabel="atualizado com base nas entradas e saídas"
           icon="arrowDown"
         />

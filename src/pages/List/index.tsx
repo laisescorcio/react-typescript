@@ -120,7 +120,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     try {
       const parseMonth = Number(month);
       setMonthSelected(parseMonth);
-    } catch (error) {
+    } catch {
       throw new Error("invalid month value. Is accept 0 - 11.");
     }
   };
@@ -129,7 +129,7 @@ const List: React.FC<IRouteParams> = ({ match }) => {
     try {
       const parseYear = Number(year);
       setYearSelected(parseYear);
-    } catch (error) {
+    } catch {
       throw new Error("invalid month value. Is accept intereger number.");
     }
   };
