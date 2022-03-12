@@ -113,6 +113,33 @@ const Dashboard: React.FC = () => {
     return totalGains - totalExpenses;
   }, [totalGains, totalExpenses]);
 
+  const message = useMemo(() => {
+    if (totalBalance < 0) {
+      return {
+        title: "Que triste!",
+        description: "Neste mês você gastou mais do que deveria.",
+        footerText:
+          "Verifique seus gastos e tente cortar algumas coisas desnecessárias.",
+        icon: sadImg,
+      };
+    } else if (totalBalance == 0) {
+      return {
+        title: "Ufaa!",
+        description: "Neste mês você gastou exatamente o que ganhou.",
+        footerText:
+          "Tenha cuidado. No próximo mês tente poupar o seu dinheiro.",
+        icon: happyImg,
+      };
+    } else {
+      return {
+        title: "Muito bem!",
+        description: "Sua carteira está positiva!",
+        footerText: "Continue assim. Considere investir seu dinheiro!",
+        icon: happyImg,
+      };
+    }
+  }, [totalBalance]);
+
   // quero saber se quando o usuário clicar em um estado (recorrente ou eventual) se já está selecionado
   // sendo frequency = recorrente e/ou eventual
   const handleMonthSelected = (month: string) => {
@@ -170,10 +197,10 @@ const Dashboard: React.FC = () => {
           icon="arrowDown"
         />
         <MessageBox
-          title="Muito bem!"
-          description="Sua carteira está positiva!"
-          footerText="Continue assim. Considere investir seu saldo!"
-          icon={happyImg}
+          title={message.title}
+          description={message.description}
+          footerText={message.footerText}
+          icon={message.icon}
         />{" "}
       </Content>
     </Container>
