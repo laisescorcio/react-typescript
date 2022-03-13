@@ -230,7 +230,7 @@ const Dashboard: React.FC = () => {
     );
   }, [yearSelected]);
 
-  // relação de entrada e saída para o gráfico em barras
+  // relação percentual entre GASTOS recorrentes e eventuais para o gráfico em barras
   const relationsExpensesRecurrentVersusEventual = useMemo(() => {
     let amountRecurrent = 0;
     let amountEventual = 0;
@@ -252,6 +252,49 @@ const Dashboard: React.FC = () => {
         // para cada item filtrado acima, somar os valores dos gastos eventuais
         if (expense.frequency === "eventual") {
           return (amountEventual += Number(expense.amount));
+        }
+      });
+
+    const total = amountRecurrent + amountEventual;
+
+    return [
+      {
+        name: "Recorrentes",
+        amount: amountRecurrent,
+        percent: Number(((amountRecurrent / total) * 100).toFixed(1)), // porcentagem do recorrente com 1 casa decimal
+        color: "#F7931B",
+      },
+      {
+        name: "Eventuais",
+        amount: amountEventual,
+        percent: Number(((amountEventual / total) * 100).toFixed(1)), // porcentagem do eventual com 1 casa decimal
+        color: "#E44C4E",
+      },
+    ];
+  }, [monthSelected, yearSelected]);
+
+  // relação percentual entre GANHOS recorrentes e eventuais para o gráfico em barras
+  const relationsGainsRecurrentVersusEventual = useMemo(() => {
+    let amountRecurrent = 0;
+    let amountEventual = 0;
+
+    gains
+      .filter((gain) => {
+        const date = new Date(gain.date);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+
+        return month === monthSelected && year === yearSelected; // retorna os itens que tem o mes & o ano que estão selecionados
+      })
+      .forEach((gain) => {
+        // para cada item filtrado acima, somar os valores dos gastos recorrentes
+        if (gain.frequency === "recorrente") {
+          return (amountRecurrent += Number(gain.amount));
+        }
+
+        // para cada item filtrado acima, somar os valores dos gastos eventuais
+        if (gain.frequency === "eventual") {
+          return (amountEventual += Number(gain.amount));
         }
       });
 
@@ -344,6 +387,10 @@ const Dashboard: React.FC = () => {
         <BarChartBox
           title="Saídas"
           data={relationsExpensesRecurrentVersusEventual}
+        />
+        <BarChartBox
+          title="Entradas"
+          data={relationsGainsRecurrentVersusEventual}
         />
       </Content>
     </Container>
