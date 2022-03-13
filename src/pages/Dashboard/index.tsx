@@ -15,6 +15,7 @@ import listOfMonths from "../../utils/months"; // lista de todos os meses do ano
 import happyImg from "../../assets/happy.svg";
 import sadImg from "../../assets/sad.svg";
 import grinning from "../../assets/grinning.svg";
+import thinking from "../../assets/thinking.png";
 
 import { Container, Content } from "./styles";
 
@@ -111,6 +112,7 @@ const Dashboard: React.FC = () => {
     return totalGains - totalExpenses;
   }, [totalGains, totalExpenses]);
 
+  // CARD MENSAGEM: mensagem do status do seu saldo
   const message = useMemo(() => {
     if (totalBalance < 0) {
       return {
@@ -119,6 +121,14 @@ const Dashboard: React.FC = () => {
         footerText:
           "Verifique seus gastos e tente cortar algumas coisas desnecessárias.",
         icon: sadImg,
+      };
+    } else if (totalGains === 0 && totalExpenses === 0) {
+      return {
+        title: "Ops!",
+        description: "Neste mês não há registro de entrada ou saída",
+        footerText:
+          "Parece que você não fez nenhum registro no mês e ano selecionados.",
+        icon: thinking,
       };
     } else if (totalBalance === 0) {
       return {
@@ -136,26 +146,26 @@ const Dashboard: React.FC = () => {
         icon: happyImg,
       };
     }
-  }, [totalBalance]);
+  }, [totalBalance, totalGains, totalExpenses]);
 
-  // cálculo das porcentagens entre ganho e gastos
+  // GRÁFICO PIZZA: cálculo das porcentagens entre ganho e gastos
   const relationExpensesVersusGains = useMemo(() => {
     const total = totalGains + totalExpenses;
 
-    const percentGains = (totalGains / total) * 100; // cálculo de porcentagem de ganhos
-    const percentExpenses = (totalExpenses / total) * 100; // cálculo de porcentagem de gastos
+    const percentGains = Number(((totalGains / total) * 100).toFixed(1)); // cálculo de porcentagem de ganhos
+    const percentExpenses = Number(((totalExpenses / total) * 100).toFixed(1)); // cálculo de porcentagem de gastos
 
     const data = [
       {
         name: "Entradas",
         value: totalGains,
-        percent: Number(percentGains.toFixed(1)),
+        percent: percentGains ? percentGains : 0,
         color: "#E44C4E",
       },
       {
         name: "Saídas",
         value: totalExpenses,
-        percent: Number(percentExpenses.toFixed(1)),
+        percent: percentExpenses ? percentExpenses : 0,
         color: "#F7931B",
       },
     ];
@@ -230,7 +240,7 @@ const Dashboard: React.FC = () => {
     );
   }, [yearSelected]);
 
-  // relação percentual entre GASTOS recorrentes e eventuais para o gráfico em barras
+  // GRÁFICO BARRA: relação percentual entre GASTOS recorrentes e eventuais
   const relationsExpensesRecurrentVersusEventual = useMemo(() => {
     let amountRecurrent = 0;
     let amountEventual = 0;
@@ -257,23 +267,28 @@ const Dashboard: React.FC = () => {
 
     const total = amountRecurrent + amountEventual;
 
+    const percentRecurrent = Number(
+      ((amountRecurrent / total) * 100).toFixed(1)
+    ); // porcentagem do recorrente com 1 casa decimal
+    const percentEventual = Number(((amountEventual / total) * 100).toFixed(1)); // porcentagem do eventual com 1 casa decimal
+
     return [
       {
         name: "Recorrentes",
         amount: amountRecurrent,
-        percent: Number(((amountRecurrent / total) * 100).toFixed(1)), // porcentagem do recorrente com 1 casa decimal
+        percent: percentRecurrent ? percentRecurrent : 0,
         color: "#F7931B",
       },
       {
         name: "Eventuais",
         amount: amountEventual,
-        percent: Number(((amountEventual / total) * 100).toFixed(1)), // porcentagem do eventual com 1 casa decimal
+        percent: percentEventual ? percentEventual : 0,
         color: "#E44C4E",
       },
     ];
   }, [monthSelected, yearSelected]);
 
-  // relação percentual entre GANHOS recorrentes e eventuais para o gráfico em barras
+  // GRÁFICO BARRA: relação percentual entre GANHOS recorrentes e eventuais
   const relationsGainsRecurrentVersusEventual = useMemo(() => {
     let amountRecurrent = 0;
     let amountEventual = 0;
@@ -300,17 +315,22 @@ const Dashboard: React.FC = () => {
 
     const total = amountRecurrent + amountEventual;
 
+    const percentRecurrent = Number(
+      ((amountRecurrent / total) * 100).toFixed(1)
+    ); // porcentagem do recorrente com 1 casa decimal
+    const percentEventual = Number(((amountEventual / total) * 100).toFixed(1)); // porcentagem do eventual com 1 casa decimal
+
     return [
       {
         name: "Recorrentes",
         amount: amountRecurrent,
-        percent: Number(((amountRecurrent / total) * 100).toFixed(1)), // porcentagem do recorrente com 1 casa decimal
+        percent: percentRecurrent ? percentRecurrent : 0,
         color: "#F7931B",
       },
       {
         name: "Eventuais",
         amount: amountEventual,
-        percent: Number(((amountEventual / total) * 100).toFixed(1)), // porcentagem do eventual com 1 casa decimal
+        percent: percentEventual ? percentEventual : 0,
         color: "#E44C4E",
       },
     ];
