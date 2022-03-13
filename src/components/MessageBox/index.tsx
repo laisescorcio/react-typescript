@@ -9,26 +9,25 @@ interface IMessageBoxProps {
   icon: string;
 }
 
+// stateless component: componente sem estado, não precisa de 'return {}'
 const MessageBox: React.FC<IMessageBoxProps> = ({
   title,
   description,
   footerText,
   icon,
-}) => {
-  return (
-    <Container>
-      <header>
-        <h1>
-          {title}
-          <img src={icon} alt={title} />
-        </h1>
-        <p>{description}</p>
-      </header>
-      <footer>
-        <span>{footerText}</span>
-      </footer>
-    </Container>
-  );
-};
+}) => (
+  <Container>
+    <header>
+      <h1>
+        {title}
+        <img src={icon} alt={title} />
+      </h1>
+      <p>{description}</p>
+    </header>
+    <footer>
+      <span>{footerText}</span>
+    </footer>
+  </Container>
+);
 
 export default MessageBox;

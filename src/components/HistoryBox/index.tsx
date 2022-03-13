@@ -29,6 +29,7 @@ interface IHistoryBoxProps {
   lineColorAmountOutput: string;
 }
 
+// stateless component: componente sem estado, não precisa de 'return {}'
 const HistoryBox: React.FC<IHistoryBoxProps> = ({
   data,
   lineColorAmountEntry,

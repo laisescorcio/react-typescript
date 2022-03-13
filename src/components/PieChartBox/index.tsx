@@ -19,6 +19,7 @@ interface IPieChartProps {
   }[]; // é um array
 }
 
+// stateless component: componente sem estado, não precisa de 'return {}'
 const PieChartBox: React.FC<IPieChartProps> = ({ data }) => (
   <Container>
     <SideLeft>
