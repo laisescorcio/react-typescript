@@ -40,7 +40,7 @@ const BarChartBox: React.FC<IBarChartProps> = ({ title, data }) => {
       <SideRight>
         <ResponsiveContainer>
           <BarChart data={data}>
-            <Bar dataKey="amount">
+            <Bar dataKey="amount" name="Valor">
               {data.map((indicator) => (
                 <Cell
                   key={indicator.name}
@@ -49,9 +49,10 @@ const BarChartBox: React.FC<IBarChartProps> = ({ title, data }) => {
                 />
               ))}
             </Bar>
-            {/* <Tooltip
+            <Tooltip
+              cursor={{ fill: "none" }}
               formatter={(value: any) => formatCurrency(Number(value))}
-            /> comentado pois ao aplicar o tooltip, o grafico no hover possui um layer branco*/}
+            />
           </BarChart>
         </ResponsiveContainer>
       </SideRight>
