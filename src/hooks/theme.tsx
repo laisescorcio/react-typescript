@@ -29,7 +29,7 @@ interface ITheme {
 }
 
 // contexto
-const ThemeContext = createContext<IThemeContext>({} as IThemeContext); // DÚVIDA: por que é um objeto vazio?
+const ThemeContext = createContext<IThemeContext>({} as IThemeContext); // o contextAPI necessita comecar com um estado vazio, entao colocamos o objeto como vazio
 
 // provider
 const ThemeProvider: React.FC = ({ children }) => {
