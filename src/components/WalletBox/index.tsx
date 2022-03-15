@@ -39,9 +39,9 @@ const WalletBox: React.FC<IWalletBoxProps> = ({
     <Container color={color}>
       <span>{title}</span>
       <h1>
+        <strong>R$ </strong>
         <CountUp
           end={amount} // até onde deve aumentar o número
-          prefix={"R$ "} // o que colocar antes do valor
           separator="." // qual o separador de milhares
           decimal="," // qual o separador de decimal
           decimals={2} // quantas casas decimais queremos
