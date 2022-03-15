@@ -12,11 +12,11 @@ const MainHeader: React.FC = () => {
 
   const [darkTheme, setDarkTheme] = useState(() =>
     theme.title === "dark" ? true : false
-  );
+  ); // para saber se o dark está selecionado
 
   const handleChangeTheme = () => {
-    setDarkTheme(!darkTheme);
-    toggleTheme();
+    setDarkTheme(!darkTheme); // se ta verdadeiro, troca pra falso; se falso troca pra verdadeiro
+    toggleTheme(); // executa funcao de troca de tema
   };
 
   const emoji = useMemo(() => {
