@@ -33,13 +33,26 @@ const ThemeContext = createContext<IThemeContext>({} as IThemeContext);
 
 // provider
 const ThemeProvider: React.FC = ({ children }) => {
-  const [theme, setTheme] = useState<ITheme>(light);
+  const [theme, setTheme] = useState<ITheme>(() => {
+    const themeSaved = localStorage.getItem("@minha-carteira:theme");
 
+    // se tiver esse @minha-carteira:theme no localStorage ele pega o valor que está no local Storage
+    if (themeSaved) {
+      return JSON.parse(themeSaved); // transformando pra JSON
+    } else {
+      // caso não encontre esse @minha-carteira:theme no localStorage carregar o dark por default
+      return dark;
+    }
+  });
+
+  // troca de tema e seta o localStorage
   const toggleTheme = () => {
     if (theme.title === "dark") {
       setTheme(light);
+      localStorage.setItem("@minha-carteira:theme", JSON.stringify(light)); // para guardar no localStorage é necessário ser um texto e 'light' é um objeto
     } else {
       setTheme(dark);
+      localStorage.setItem("@minha-carteira:theme", JSON.stringify(dark)); // para guardar no localStorage é necessário ser um texto e 'dark' é um objeto
     }
   };
 
