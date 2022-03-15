@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 
 import ContentHeader from "../../components/ContentHeader";
 import SelectInput from "../../components/SelectInput";
@@ -338,23 +338,25 @@ const Dashboard: React.FC = () => {
 
   // quero saber se quando o usuário clicar em um estado (recorrente ou eventual) se já está selecionado
   // sendo frequency = recorrente e/ou eventual
-  const handleMonthSelected = (month: string) => {
+  // useCallback: memoriza uma funcao
+  const handleMonthSelected = useCallback((month: string) => {
     try {
       const parseMonth = Number(month);
       setMonthSelected(parseMonth);
     } catch {
       throw new Error("invalid month value. Is accept 0 - 11.");
     }
-  };
+  }, []);
 
-  const handleYearSelected = (year: string) => {
+  // useCallback: memoriza uma funcao
+  const handleYearSelected = useCallback((year: string) => {
     try {
       const parseYear = Number(year);
       setYearSelected(parseYear);
     } catch {
       throw new Error("invalid month value. Is accept intereger number.");
     }
-  };
+  }, []);
 
   return (
     <Container>

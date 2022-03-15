@@ -1,11 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import App from './App';
+import { ThemeProvider } from "./hooks/theme";
+
+import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {/* só consigo acessar o valor de um contexto (no caso, o tema) se envolver com o Provider */}
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
