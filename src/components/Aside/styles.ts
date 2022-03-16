@@ -6,10 +6,15 @@ import styled, { css } from "styled-components";
     AS = Aside
     CT = Content
 */
-
 interface IContainerProps {
     menuIsOpen: boolean;
 }
+
+interface IThemeToggleFooterProps {
+    menuIsOpen: boolean;
+}
+
+// as duas interfaces IContainerProps e IThemeToggleFooterProps atualmente possuem a mesma props, porém foi preferível deixar separado pra se algum dia alguma delas precisar acrescentar uma props, nao ficar fora de contexto pra outra interface
 
 export const Container = styled.div<IContainerProps>`
     grid-area: AS;
@@ -136,3 +141,13 @@ export const ToggleMenu = styled.button`
     }
 
 `
+
+export const ThemeToggleFooter = styled.footer<IThemeToggleFooterProps>`
+    display: none;
+    position: absolute;
+    bottom: 30px;
+
+    @media(max-width: 470px) {
+        display: ${props => props.menuIsOpen ? 'flex' : 'none'};
+    }
+`;
